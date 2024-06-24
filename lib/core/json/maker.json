@@ -1,0 +1,176 @@
+{
+  "Toppings": [
+    {
+      "name": "Pepperoni",
+      "price": 40
+    },
+    {
+      "name": "Beef",
+      "price": 50
+    },
+    {
+      "name": "Sausage",
+      "price": 50
+    },
+    {
+      "name": "Bacon",
+      "price": 50
+    },
+    {
+      "name": "Chicken",
+      "price": 50
+    },
+    {
+      "name": "Anchovies",
+      "price": 50
+    },
+    {
+      "name": "Salami",
+      "price": 50
+    },
+    {
+      "name": "Meatballs",
+      "price": 50
+    },
+    {
+      "name": "Shrimp",
+      "price": 70
+    },
+    {
+      "name": "Seafood",
+      "price": 60
+    }
+
+
+  ],
+    "Sizes": [
+
+      {
+        "name": "Small",
+        "price": 10
+      },
+      {
+        "name": "Medium",
+        "price": 15
+      },
+      {
+        "name": "Large",
+        "price": 20
+      }
+
+    ],
+    "Crusts": [
+      {
+        "name": "Thin",
+        "price": 10
+      },
+        {
+            "name": "Thick",
+            "price": 15
+        },
+        {
+            "name": "Stuffed",
+            "price": 20
+        }
+    ],
+
+    "Sauces": [
+      {
+        "name": "Tomato",
+        "price": 10
+      },
+        {
+            "name": "Pesto",
+            "price": 15
+        },
+        {
+            "name": "Alfredo",
+            "price": 20
+        },
+        {
+            "name": "BBQ",
+            "price": 20
+        },
+        {
+            "name": "Buffalo",
+            "price": 20
+        },
+        {
+            "name": "Garlic",
+            "price": 10
+        },
+        {
+            "name": "Ranch",
+            "price": 20
+        }
+    ],
+    "Cheeses": [
+      {
+        "name": "Mozzarella",
+        "price": 10
+      },
+        {
+            "name": "Cheddar",
+            "price": 15
+        },
+        {
+            "name": "Feta",
+            "price": 20
+        },
+        {
+            "name": "Parmesan",
+            "price": 20
+        },
+        {
+            "name": "Provolone",
+            "price": 20
+        },
+        {
+            "name": "Swiss",
+            "price": 20
+        }
+    ],
+  "Vegetables": [
+    {
+      "name": "Onions",
+      "price": 10
+    },
+    {
+      "name": "Green Peppers",
+      "price": 10
+    },
+    {
+      "name": "Black Olives",
+      "price": 10
+    },
+    {
+      "name": "Green Olives",
+      "price": 10
+    },
+    {
+      "name": "Jalapenos",
+      "price": 10
+    },
+    {
+      "name": "Pineapple",
+      "price": 10
+    },
+    {
+      "name": "Spinach",
+      "price": 10
+    },
+    {
+      "name": "Tomatoes",
+      "price": 10
+    },
+    {
+      "name": "Banana Peppers",
+      "price": 10
+    },
+    {
+      "name": "Mushrooms",
+      "price": 10
+    }
+  ]
+
+}

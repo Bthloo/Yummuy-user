@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCosevDJ9wjQeK3HHHU24kjcM3ti2iknv0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>47759379431</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ummuy2.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>ummuy-d39ec</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ummuy-d39ec.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:47759379431:ios:c41c7251fad757ac0d0b42</string>
+</dict>
+</plist>

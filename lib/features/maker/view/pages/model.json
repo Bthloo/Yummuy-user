@@ -1,0 +1,23 @@
+{
+  "toppings" : [
+    "cheese",
+    "pepperoni"
+  ],
+    "crust" : [
+    "thin",
+    "thick"
+    ],
+    "sauce" : [
+    "red",
+    "white"
+    ],
+  "vegetables" : [
+    "mushrooms",
+    "onions",
+    "peppers"
+  ],
+  "cheeses" : [
+    "mozzarella",
+    "cheddar"
+  ]
+}
