@@ -8,11 +8,8 @@ import 'package:ummuy2/core/general_components/ColorHelper.dart';
 import 'package:ummuy2/features/home_screen/viewmodel/get_category/get_categories_cubit.dart';
 import 'package:ummuy2/features/home_screen/viewmodel/get_meals/get_meals_cubit.dart';
 import 'package:ummuy2/features/profile_screen/view/pages/propag.dart';
-import '../../../../burger_maker.dart';
-import '../../../../maker.dart';
 import '../../../cart_screen/view/pages/cart.dart';
 import '../../../det.dart';
-import '../../../flobut.dart';
 import '../../../maker/view/pages/pizza_maker.dart';
 
 class PizzaHome extends StatelessWidget {
