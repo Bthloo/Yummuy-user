@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ummuy2/core/data_base/my_database.dart';
 
 import '../../../core/data_base/models/PizzaMakerModel.dart';
 
@@ -33,7 +35,10 @@ class PizzaMakerCubit extends Cubit<PizzaMakerState> {
     );
     emit(PizzaMakerLoading());
     try{
-      final String response = await rootBundle.loadString('lib/core/json/maker.json');
+    var pizzaMakerJson = await MyDataBase.getPizzaMakerJson();
+    String response = await pizzaMakerJson["JsonFile"];
+    debugPrint('Response $response');
+     // final String response = await rootBundle.loadString('lib/core/json/maker.json');
       final data = await json.decode(response);
       PizzaMakerModel pizzaMakerModel = PizzaMakerModel.fromJson(data);
       isToppingSelected = List.generate(pizzaMakerModel.toppings!.length, (index) => false);

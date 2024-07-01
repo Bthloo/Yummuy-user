@@ -1,7 +1,10 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ummuy2/core/data_base/models/admin_cart_model.dart';
+import 'package:ummuy2/core/data_base/models/sale_model.dart';
 import 'package:ummuy2/core/data_base/my_database.dart';
 import 'package:ummuy2/core/general_components/build_show_toast.dart';
 import 'package:ummuy2/features/auth/Login/ViewModel/login_cubit.dart';
@@ -14,8 +17,12 @@ import '../../../profile_screen/viewmodel/profile_state.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});
+
   static const routeName = 'cart screen';
+  var formKey = GlobalKey<FormState>();
+  final TextEditingController code = TextEditingController();
   BuildContext? cartContext;
+  bool isCodeUsed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +35,9 @@ class CartPage extends StatelessWidget {
       body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: BlocProvider(
-            create: (context) => CartCubit()..getCart(),
+            create: (context) =>
+            CartCubit()
+              ..getCart(),
             child: BlocBuilder<CartCubit, CartState>(
               builder: (context, state) {
                 cartContext = context;
@@ -52,35 +61,45 @@ class CartPage extends StatelessWidget {
                                     Card(
                                         color: ColorManager.first,
                                         child: ListTile(
-                                          onTap: (){
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: const Text("Show Pizza Maker Details"),
-                                                  content: Text(state.cartItems[index].pizzaMaker!),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: const Text('Ok'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
+                                          onTap: () {
+                                            if (state.cartItems[index]
+                                                .pizzaMaker != null) {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        "Show Pizza Maker Details"),
+                                                    content: Text(
+                                                        state.cartItems[index]
+                                                            .pizzaMaker!),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text('Ok'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            } else {
+                                              return;
+                                            }
                                           },
                                           leading: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: state.cartItems[index].image != "" ?
+                                            BorderRadius.circular(100),
+                                            child: state.cartItems[index]
+                                                .image != "" ?
                                             CachedNetworkImage(
                                               width: 100,
                                               height: 100,
                                               imageUrl:
-                                                  state.cartItems[index].image!,
-                                            ): const SizedBox(
+                                              state.cartItems[index].image!,
+                                            ) : const SizedBox(
                                                 width: 100,
                                                 height: 100,
                                                 child: Icon(Icons.image)),
@@ -94,14 +113,17 @@ class CartPage extends StatelessWidget {
                                             ),
                                           ),
                                           subtitle: Text(
-                                            '${state.cartItems[index].price} LE',
+                                            '${state.cartItems[index]
+                                                .price} LE',
                                             style: TextStyle(
                                               fontSize: 20,
                                               color: ColorManager.second,
                                             ),
                                           ),
                                           trailing: Text(
-                                            "${state.cartItems[index].quantity} x ${state.cartItems[index].size}",
+                                            "${state.cartItems[index]
+                                                .quantity} x ${state
+                                                .cartItems[index].size}",
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
@@ -117,7 +139,7 @@ class CartPage extends StatelessWidget {
                                             try {
                                               MyDataBase.deleteCart(
                                                 cartModel:
-                                                    state.cartItems[index],
+                                                state.cartItems[index],
                                                 id: LoginCubit.currentUser.id!,
                                               );
                                               CartCubit.get(cartContext!)
@@ -135,118 +157,203 @@ class CartPage extends StatelessWidget {
                                 );
                               },
                               separatorBuilder: (context, index) =>
-                                  const Divider(),
+                              const Divider(),
                               itemCount: state.cartItems.length),
                         ),
                         //const Spacer(),
-                        BottomAppBar(
-                          child: SizedBox(
-                            height: 100,
-                            // padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Total:',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  '${CartCubit.get(context).totalPrice} LE',
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                const Spacer(),
-                                BlocProvider(
-                                  create: (context) => ProfileCubit()..getUserFromDataBase(),
-                                  child:
-                                      BlocBuilder<ProfileCubit, ProfileState>(
-                                    builder: (context, profileState) {
-                                      if(profileState is ProfileSuccess){
-                                        return ElevatedButton(
-                                          onPressed: () {
-                                            if (profileState.user.address ==
-                                                null ||
-                                                profileState.user.address ==
-                                                    "" ||
-                                                profileState.user.address ==
-                                                    "No Address yet") {
-                                              showAdaptiveDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    title: const Text(
-                                                        'Please add your address'),
-                                                    content: const Text(
-                                                        'You have to add your address to be able to checkout'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child:
-                                                        const Text('Cancel'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pushNamed(
-                                                              ProfilePage
-                                                                  .routeName).then((value) {
-                                                            ProfileCubit.get(context).getUserFromDataBase();
-                                                                  },);
-                                                        },
-                                                        child: const Text(
-                                                            'Add Address'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ).then((value) {
-                                                ProfileCubit.get(context).getUserFromDataBase();
-                                              },);
-                                            } else {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) =>
-                                                    _buildPopupDialog(
-                                                        context,
-                                                        state.cartItems,
-                                                        state.cartItems.length,
-                                                        CartCubit.get(
-                                                            cartContext!)
-                                                            .totalPrice),
-                                              );
-                                            }
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 4, horizontal: 4),
-                                            child: Text(
-                                              'Checkout',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black),
+                        Column(
+                          children: [
+                            TextButton(
+                                child: const Text("Use Code", style: TextStyle(
+                                    fontSize: 18,
+                                    //color: Colors.white
+                                ),),
+                                onPressed: () {
+                                  if(CartCubit.get(context).isCodeUsed == true){
+                                    buildShowToast('You have already used a code');
+                                  }else{
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text("Use Code"),
+                                            semanticLabel: "Be careful once you use the code you can't change it or use any code for this order again",
+                                            content: Form(
+                                              key: formKey,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Text("Enter Discount code"),
+                                                  const SizedBox(height: 10,),
+                                                  TextFormField(
+                                                    controller: code,
+                                                    validator: (value) {
+                                                      if (value!.trim().isEmpty) {
+                                                        return "Please enter the code";
+                                                      }
+                                                      return null;
+
+                                                    },
+                                                    decoration: const InputDecoration(
+                                                      hintText: "Code",
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }else if(profileState is ProfileLoading){
-                                        return const Center(child: CircularProgressIndicator(),);
-                                      }else if(profileState is ProfileError){
-                                        return  Center(child: Text(profileState.e));
-                                    }else{
-                                        return const Center(child: Text('unknown state'),);
-                                      }
-                                    }
-                                  ),
-                                ),
-                              ],
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+
+                                                  useCode(code: code.text,context: context);
+
+                                                },
+                                                child: const Text('Use'),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                    ).then((value) {
+                                      CartCubit.get(context).getCart();
+                                    },);
+                                  }
+
+                                }
                             ),
-                          ),
+                            BottomAppBar(
+                              child: SizedBox(
+                               // height: 150,
+                                // padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Total:',
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '${CartCubit
+                                          .get(context)
+                                          .totalPrice} LE',
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                    const Spacer(),
+                                    BlocProvider(
+                                      create: (context) =>
+                                      ProfileCubit()
+                                        ..getUserFromDataBase(),
+                                      child:
+                                      BlocBuilder<ProfileCubit, ProfileState>(
+                                          builder: (context, profileState) {
+                                            if (profileState is ProfileSuccess) {
+                                              return ElevatedButton(
+                                                onPressed: () {
+                                                  if (profileState.user.address ==
+                                                      null ||
+                                                      profileState.user.address ==
+                                                          "" ||
+                                                      profileState.user.address ==
+                                                          "No Address yet") {
+                                                    showAdaptiveDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                              'Please add your address'),
+                                                          content: const Text(
+                                                              'You have to add your address to be able to checkout'),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                              const Text('Cancel'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pushNamed(
+                                                                    ProfilePage
+                                                                        .routeName)
+                                                                    .then((value) {
+                                                                  ProfileCubit.get(
+                                                                      context)
+                                                                      .getUserFromDataBase();
+                                                                },);
+                                                              },
+                                                              child: const Text(
+                                                                  'Add Address'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    ).then((value) {
+                                                      ProfileCubit.get(context)
+                                                          .getUserFromDataBase();
+                                                    },);
+                                                  } else {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (
+                                                          BuildContext context) =>
+                                                          _buildPopupDialog(
+                                                              context,
+                                                              state.cartItems,
+                                                              state.cartItems
+                                                                  .length,
+                                                              CartCubit
+                                                                  .get(
+                                                                  cartContext!)
+                                                                  .totalPrice),
+                                                    );
+                                                  }
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 4, horizontal: 4),
+                                                  child: Text(
+                                                    'Checkout',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                              );
+                                            } else
+                                            if (profileState is ProfileLoading) {
+                                              return const Center(
+                                                child: CircularProgressIndicator(),);
+                                            } else
+                                            if (profileState is ProfileError) {
+                                              return Center(
+                                                  child: Text(profileState.e));
+                                            } else {
+                                              return const Center(
+                                                child: Text('unknown state'),);
+                                            }
+                                          }
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     );
@@ -326,9 +433,11 @@ class CartPage extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
               child: Text(
-                "Total Price: ${CartCubit.get(cartContext!).totalPrice} LE",
+                "Total Price: ${CartCubit
+                    .get(cartContext!)
+                    .totalPrice} LE",
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
 
           //des
@@ -340,6 +449,8 @@ class CartPage extends StatelessWidget {
             try {
               MyDataBase.addCartAmdin(
                   cartAmdinModel: CartAmdinModel(
+                    discountCode: CartCubit.get(cartContext!).discountCode,
+                      isCodeUsed: CartCubit.get(cartContext!).isCodeUsed,
                       status: "Pending",
                       cartModelList: cartModel,
                       totalPrice: totalPrice,
@@ -395,5 +506,54 @@ class CartPage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  useCode({required String code,required BuildContext context})async{
+    if (formKey.currentState!.validate() == false) {
+      return;
+    } else {
+
+      bool isValued = false;
+      try {
+        num? rate;
+      var discounts = await MyDataBase.getDiscountCodes();
+     for (var element in discounts.docs) {
+       if(element.data().code == code && element.data().quantity! > 0){
+         rate = element.data().discount;
+         isValued = true;
+         await MyDataBase.editDiscountCodes(
+             saleModel: SaleModel(
+                 code: element.data().code,
+                 discount: element.data().discount,
+                 quantity: (element.data().quantity)! - 1
+             ),
+             id: element.id
+         );
+        // debugPrint();
+         await MyDataBase.addToTotalCart(
+             id: LoginCubit.currentUser.id,
+             cartModel: TotalCart(
+                discountCode: element.data().code,
+               discountRate: rate,
+               isCodeUsed: true,
+             )
+         );
+         if(context.mounted){
+           Navigator.of(context).pop();
+         }
+
+         buildShowToast('Discount Added Successfully');
+         return;
+       }else{
+         isValued = false;
+       }
+     }
+      if(isValued == false){
+        buildShowToast('Invalid Code');
+      }
+      } catch (e) {
+        buildShowToast(e.toString());
+      }
+    }
   }
 }

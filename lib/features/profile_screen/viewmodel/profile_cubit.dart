@@ -9,12 +9,8 @@ import '../../../core/data_base/my_database.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
-
   static ProfileCubit get(BuildContext context) => BlocProvider.of(context);
-
- static user_model.User? currentUser;
-
-  //Future<user_model.User?>
+  user_model.User? currentUser;
   getUserFromDataBase() async {
     emit(ProfileLoading());
     try{

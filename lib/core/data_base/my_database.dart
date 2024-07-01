@@ -3,6 +3,7 @@ import 'package:ummuy2/core/data_base/models/admin_cart_model.dart';
 import 'package:ummuy2/core/data_base/models/cart_model.dart';
 import 'package:ummuy2/core/data_base/models/meal_model.dart';
 import 'models/categories_model.dart';
+import 'models/sale_model.dart';
 import 'models/user.dart';
 
 class MyDataBase{
@@ -173,4 +174,61 @@ class MyDataBase{
     return cartCollection;
 
   }
+
+  static Future<void> addToTotalCart({required TotalCart cartModel,required String? id}){
+    var collection = getUsersCollection();
+   // cartModel.id = collection.doc().id;
+    return collection.doc(id).collection('TotalCart')
+        .withConverter<TotalCart>(
+      fromFirestore: (snapshot, options) => TotalCart.fromFireStore(snapshot.data()),
+      toFirestore: (cart, options) => cart.toFireStore(),
+    ).doc("totalCartId").set(cartModel);
+  }
+
+  static Future<DocumentSnapshot<TotalCart>> getTotalCart({required String? userId}){
+    var collection = getUsersCollection();
+    var cartCollection = collection.doc(userId).collection('TotalCart').withConverter<TotalCart>(
+      fromFirestore: (snapshot, options) => TotalCart.fromFireStore(snapshot.data()),
+      toFirestore: (cart, options) => cart.toFireStore(),
+    ).doc("totalCartId");
+    return cartCollection.get();
+
+  }
+
+
+
+
+  static Future<void>updateTotalCart({
+    required String? userId,
+    //required String totalCartId,
+    required TotalCart totalCart,
+  })async {
+    var collection = getUsersCollection();
+     collection.doc(userId).collection('TotalCart').withConverter<TotalCart>(
+      fromFirestore: (snapshot, options) => TotalCart.fromFireStore(snapshot.data()),
+      toFirestore: (cart, options) => cart.toFireStore(),
+    ).doc("totalCartId").update(totalCart.toFireStore());
+
+
+  }
+
+
+ static getPizzaMakerJson(){
+    return FirebaseFirestore.instance.collection('PizzaMaker').doc("PizzaMaker").get();
+  }
+  static Future<QuerySnapshot<SaleModel>> getDiscountCodes(){
+    return FirebaseFirestore.instance.collection(SaleModel.collectionName)
+        .withConverter<SaleModel>(
+      fromFirestore: (snapshot, options) => SaleModel.fromJson(snapshot.data()),
+      toFirestore: (category, options) => category.toFireStore(),
+    ).get();
+  }
+  static Future<void> editDiscountCodes({required SaleModel saleModel,required String? id}){
+    return FirebaseFirestore.instance.collection(SaleModel.collectionName)
+        .withConverter<SaleModel>(
+      fromFirestore: (snapshot, options) => SaleModel.fromJson(snapshot.data()),
+      toFirestore: (category, options) => category.toFireStore(),
+    ).doc(id).update(saleModel.toFireStore());
+  }
+
 }

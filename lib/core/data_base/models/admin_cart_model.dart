@@ -13,6 +13,8 @@ String? id;
   String userId;
   String? time;
   String? status;
+  bool? isCodeUsed;
+  String? discountCode;
   CartAmdinModel({
     this.id,
     required this.cartModelList,
@@ -24,6 +26,8 @@ String? id;
     required this.userEmail,
     required this.status,
     required this.userId,
+    this.isCodeUsed,
+    this.discountCode,
      this.pizzaMaker
    });
 
@@ -39,6 +43,8 @@ String? id;
       'status' : status,
       'userId' : userId,
       'time':time,
+      'isCodeUsed':isCodeUsed,
+      'discountCode':discountCode,
       'pizzaMaker':pizzaMaker
     };
   }
@@ -54,6 +60,8 @@ String? id;
           status: data?['status'],
           userEmail: data?['userEmail'],
           userId: data?['userId'],
+          isCodeUsed: data?['isCodeUsed'],
+          discountCode: data?['discountCode'],
           time: data?['time'],
           pizzaMaker: data?['pizzaMaker']
         );

@@ -45,13 +45,13 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginSuccess('Success'));
      //ProfileCubit.get(context).currentUser = user;////
       ///////////////////////////
-      if(authService.currentUser?.emailVerified == true){
-        emit(LoginSuccess('Success'));
-      }else{
-        emit(LoginError('Please Verify your Email'));
-      }
+      // if(authService.currentUser?.emailVerified == true){
+      //   emit(LoginSuccess('Success'));
+      // }else{
+      //   emit(LoginError('Please Verify your Email'));
+      // }
 //////////////////////////////////
-
+      emit(LoginSuccess('Success'));
     } on FirebaseAuthException catch (e) {
      if(e.code == "invalid-credential"){
         emit(LoginError("Wrong Email or Password"));

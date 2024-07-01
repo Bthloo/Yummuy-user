@@ -22,55 +22,38 @@ class PizzaHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        actions: [
-          ActionButton(
-            onPressed: () {Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) =>MakeBurgerPage()));},
-            icon: const Icon(Icons.home),
-          ),
-          SizedBox(width: 10,),
-          ActionButton(
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-               PizzaMaker.routeName
-              );
-            },
-            icon: const Icon(Icons.local_pizza_outlined),
-
-
-          ),
-        ],
+        title: const Text("YUMMY",style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.w900
+        ),),
       ),
       body: const MainApp(),
       bottomNavigationBar: const BottomBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: ExpandableFab(
-        distance: 112,
-        children: [
-          ActionButton(
-            onPressed: () {},
-            icon: const Icon(Icons.local_pizza_outlined),
-          ),
-          ActionButton(
-            onPressed: () {},
-            icon: const Icon(Icons.local_pizza_outlined),
-
-            // ImageIcon(
-            //   AssetImage('assets/burger_icon.png'),
-            // ),
-          ),
-          ActionButton(
-            onPressed: () {},
-            icon: const Icon(Icons.local_pizza_outlined),
-            // ImageIcon(
-            //   AssetImage('assets/pizza_icon.png'),
-            // ),
-          ),
-        ],
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: ExpandableFab(
+      //   distance: 112,
+      //   children: [
+      //     ActionButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.local_pizza_outlined),
+      //     ),
+      //     ActionButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.local_pizza_outlined),
+      //
+      //       // ImageIcon(
+      //       //   AssetImage('assets/burger_icon.png'),
+      //       // ),
+      //     ),
+      //     ActionButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.local_pizza_outlined),
+      //       // ImageIcon(
+      //       //   AssetImage('assets/pizza_icon.png'),
+      //       // ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
@@ -91,7 +74,7 @@ class MainApp extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
-              titleBar(),
+              titleBar(context),
               tabs(),
             ],
           )
@@ -101,11 +84,11 @@ class MainApp extends StatelessWidget {
   }
 }
 
-Widget titleBar() {
-  return const Row(
+Widget titleBar(BuildContext context) {
+  return  Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Column(
+      const Column(
         children: [
           SizedBox(
             height: 30,
@@ -117,15 +100,28 @@ Widget titleBar() {
           Text(".......", style: TextStyle(fontSize: 40))
         ],
       ),
-      SizedBox(
-        width: 20,
-      ),
-      Image(
-        image: AssetImage("assets/logo.jpg"),
-        width: 150,
-        height: 150,
-        fit: BoxFit.fill,
-      )
+      // const SizedBox(
+      //   width: 20,
+      // ),
+      const Spacer(),
+      ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all<Color>(Colors.orange),
+            foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+          ),
+          onPressed: () {
+            Navigator.pushNamed(
+                context,
+                PizzaMaker.routeName
+            );
+          },
+          child: const Text("Make your Own Pizza")),
+      // Image(
+      //   image: AssetImage("assets/logo.jpg"),
+      //   width: 150,
+      //   height: 150,
+      //   fit: BoxFit.fill,
+      // )
     ],
   );
 }
@@ -440,12 +436,12 @@ class BottomBar extends StatelessWidget {
                   CupertinoIcons.home,
                   size: 30,
                 )),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  CupertinoIcons.search,
-                  size: 30,
-                )),
+            // IconButton(
+            //     onPressed: () {},
+            //     icon: const Icon(
+            //       CupertinoIcons.search,
+            //       size: 30,
+            //     )),
             IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context,

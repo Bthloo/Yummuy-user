@@ -49,11 +49,17 @@ dependencies:
   flutter_screenutil: ^5.9.0
   flutter_secure_storage: ^9.0.0
   cached_network_image: ^3.3.1
+  flutter_launcher_icons: ^0.13.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logos.jpeg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -76,22 +82,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/core/json/maker.json
-    - assets/breakfast.jpeg
-    - assets/burger.jpg
-    - assets/drinks.jpg
-    - assets/meal.jpg
-    - assets/chicken.jpeg
-    - assets/healthy.jpg
-    - assets/homes.jpg
-    - assets/hero.jpg
-    - assets/p1.png
-    - assets/p2.png
-    - assets/icedcoffe.jpg
-    - assets/turkishcoffe.jpg
-    - assets/espresso.jpeg
-    - assets/tea.jpeg
-    - assets/splash.png
-    - assets/logo.jpg
+    - assets/logos.jpeg
 
 
 

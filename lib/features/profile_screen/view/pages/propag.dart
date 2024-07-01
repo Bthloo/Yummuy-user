@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ummuy2/core/data_base/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ummuy2/core/data_base/models/user.dart' as my_user;
 import 'package:ummuy2/core/data_base/my_database.dart';
 import 'package:ummuy2/core/general_components/build_show_toast.dart';
 import 'package:ummuy2/core/general_components/custom_form_field.dart';
+import 'package:ummuy2/features/auth/Login/View/Pages/login_screen.dart';
 import 'package:ummuy2/features/profile_screen/view/pages/history_page.dart';
 import 'package:ummuy2/features/profile_screen/viewmodel/profile_cubit.dart';
 import '../../viewmodel/history_viewmodel/history_cubit.dart';
@@ -167,7 +170,7 @@ static const String routeName = 'profile-screen';
                                                return;
                                              }else {
                                                try{
-                                               MyDataBase.updateUser(User(
+                                               MyDataBase.updateUser(my_user.User(
                                                   id: state.user.id,
                                                   name: state.user.name,
                                                   email: state.user.email,
@@ -205,6 +208,22 @@ static const String routeName = 'profile-screen';
                             ),
                           ),
                         ])),
+                    Center(child: ElevatedButton(onPressed: ()async{
+                      await  const FlutterSecureStorage().delete(key: 'token');
+                      if(context.mounted){
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            LoginScreen.routeName,
+                                (route) => false
+                        );
+                        //state.user.\
+                        ProfileCubit.get(context).currentUser = null;
+                        FirebaseAuth.instance.signOut();
+                      }
+
+
+                     // MyDataBase.
+                    }, child: Text("Log out"))),
                     SizedBox(height: 20.h),
                      Text('History--', style: TextStyle(
                       color: ColorManager.first,
@@ -212,6 +231,8 @@ static const String routeName = 'profile-screen';
                       fontWeight: FontWeight.bold,
                     )
                     ),
+
+
                     BlocProvider(
                       create: (context) => HistoryCubit()..getData(),
                       child: BlocBuilder<HistoryCubit, HistoryState>(

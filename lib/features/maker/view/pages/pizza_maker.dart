@@ -216,20 +216,32 @@ int totalPrice = 0;
                                                 String piz = pizzaMakerAdmin.toJson().toString();
                                                // String pizzaaa ="${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toJson()}";
                                                // List<String> list = pizzaaa.split(",");
-                                                MyDataBase.addToCart(
-                                                    cartModel: CartModel(
-                                                      name: "Custom Pizza",
-                                                      status: "Pending",
-                                                      pizzaMaker: piz,
-                                                      quantity: 1,
-                                                      image: "",
-                                                      size: "Large",
-                                                      price: totalPrice.toDouble(),
-                                                    ),
-                                                    id: LoginCubit.currentUser.id
-                                                );
-                                                print(piz);
-                                                Navigator.pop(context);
+                                                if(
+                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.isEmpty ||
+                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.isEmpty ||
+                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.isEmpty ||
+                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.isEmpty ||
+                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.isEmpty
+                                                ){
+                                                  buildShowToast("Please Select All Fields");
+                                                }else{
+                                                  MyDataBase.addToCart(
+                                                      cartModel: CartModel(
+                                                        name: "Custom Pizza",
+                                                        status: "Pending",
+                                                        pizzaMaker: piz,
+                                                        quantity: 1,
+                                                        image: "",
+                                                        size: "Large",
+                                                        price: totalPrice.toDouble(),
+                                                      ),
+                                                      id: LoginCubit.currentUser.id
+                                                  );
+                                                  buildShowToast("Added To Cart Successfully");
+                                                  Navigator.pop(context);
+                                                }
+
+
                                               }catch(e){
                                                 buildShowToast(e.toString());
                                               }
