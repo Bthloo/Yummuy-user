@@ -415,24 +415,12 @@ class TitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(children: [
-        TextSpan(
-            text: pizzaName,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: _fontSize,
-                fontFamily: "slabo",
-                fontWeight: FontWeight.w500)),
-        TextSpan(
-            text: " Pizza",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: _fontSize,
-                fontFamily: "slabo",
-                fontWeight: FontWeight.w600))
-      ]),
-    );
+    return Text(pizzaName,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: _fontSize,
+            fontFamily: "slabo",
+            fontWeight: FontWeight.w500));
   }
 }
 
