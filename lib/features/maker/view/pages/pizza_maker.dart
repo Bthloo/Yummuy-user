@@ -49,226 +49,304 @@ int totalPrice = 0;
                 ),
                 const Spacer(),
                 ElevatedButton(
-                    onPressed: (){
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-
-                                    ListView(
-                                    children: [
-                                      const SizedBox(height: 50,),
-                                      Text('Total Price: $totalPrice',style: const TextStyle(fontSize: 20),),
-                                      const SizedBox(height: 30,),
-                                      const Text('Toppings:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: ListView.separated(
-                                            shrinkWrap: true,
-                                            separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                                            physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.length,
-                                              itemBuilder: (context, index) {
-                                                return Text(
-                                                    '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings![index].name}',
-                                                  style: const TextStyle(fontSize: 25),
-                                                );
-                                              },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10,),
-                                      const Text('Cheese:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: ListView.separated(
-                                            shrinkWrap: true,
-
-                                            separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.length,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses![index].name}',
-                                                style: const TextStyle(fontSize: 25),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10,),
-                                      const Text('Sauce:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: ListView.separated(
-                                            shrinkWrap: true,
-
-                                            separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.length,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces![index].name}',
-                                                style: const TextStyle(fontSize: 25),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10,),
-                                      const Text('Vegetables:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: ListView.separated(
-                                            shrinkWrap: true,
-
-                                            separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.length,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables![index].name}',
-                                                style: const TextStyle(fontSize: 25),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10,),
-                                      const Text('Crust:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: ListView.separated(
-                                            shrinkWrap: true,
-
-                                            separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.length,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts![index].name}',
-                                                style: const TextStyle(fontSize: 25),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 30,),
-                                    ],
-                                  ),
-                                    Positioned(
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: const Center(
-                                            child: Text(
-                                              'Order Summary',
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold,
-                                                color: Colors.orange
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                    Container(
-                                      color: Colors.white,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              try{
-                                                PizzaMakerAdminNew pizzaMakerAdmin = PizzaMakerAdminNew(
-                                                  crust: [],
-                                                  toppings: [],
-                                                  sauce: [],
-                                                  vegetables: [],
-                                                  cheeses: [],
-                                                );
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts?.forEach((element) {
-                                                  pizzaMakerAdmin.crust?.add(element.name!);
-                                                },);
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings?.forEach((element) {
-                                                  pizzaMakerAdmin.toppings?.add(element.name!);
-                                                },);
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces?.forEach((element) {
-                                                  pizzaMakerAdmin.sauce?.add(element.name!);
-                                                },);
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables?.forEach((element) {
-                                                  pizzaMakerAdmin.vegetables?.add(element.name!);
-                                                },);
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses?.forEach((element) {
-                                                  pizzaMakerAdmin.cheeses?.add(element.name!);
-                                                },);
-                                                String piz = pizzaMakerAdmin.toJson().toString();
-                                               // String pizzaaa ="${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toJson()}";
-                                               // List<String> list = pizzaaa.split(",");
-                                                if(
-                                                cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.isEmpty ||
-                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.isEmpty ||
-                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.isEmpty ||
-                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.isEmpty ||
-                                                    cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.isEmpty
-                                                ){
-                                                  buildShowToast("Please Select All Fields");
-                                                }else{
-                                                  MyDataBase.addToCart(
-                                                      cartModel: CartModel(
-                                                        name: "Custom Pizza",
-                                                        status: "Pending",
-                                                        pizzaMaker: piz,
-                                                        quantity: 1,
-                                                        image: "",
-                                                        size: "Large",
-                                                        price: totalPrice.toDouble(),
-                                                      ),
-                                                      id: LoginCubit.currentUser.id
-                                                  );
-                                                  buildShowToast("Added To Cart Successfully");
-                                                  Navigator.pop(context);
-                                                }
-
-
-                                              }catch(e){
-                                                buildShowToast(e.toString());
-                                              }
-                                            },
-                                            child: const Text('Add To Cart',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black
-                                              ),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Close',style: TextStyle(fontSize: 20,color: Colors.black),),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]
-                                ),
-                              ),
-                            );
-                          },
+                  onPressed: () {
+                    try{
+                      PizzaMakerAdminNew pizzaMakerAdmin = PizzaMakerAdminNew(
+                        crust: [],
+                        toppings: [],
+                        sauce: [],
+                        vegetables: [],
+                        cheeses: [],
                       );
-                    },
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts?.forEach((element) {
+                        pizzaMakerAdmin.crust?.add(element.name!);
+                      },);
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings?.forEach((element) {
+                        pizzaMakerAdmin.toppings?.add(element.name!);
+                      },);
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces?.forEach((element) {
+                        pizzaMakerAdmin.sauce?.add(element.name!);
+                      },);
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables?.forEach((element) {
+                        pizzaMakerAdmin.vegetables?.add(element.name!);
+                      },);
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses?.forEach((element) {
+                        pizzaMakerAdmin.cheeses?.add(element.name!);
+                      },);
+                      String piz = pizzaMakerAdmin.toJson().toString();
+                      // String pizzaaa ="${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toJson()}";
+                      // List<String> list = pizzaaa.split(",");
+                      if(
+                      cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.isEmpty ||
+                          cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.isEmpty ||
+                          cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.isEmpty ||
+                          cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.isEmpty ||
+                          cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.isEmpty
+                      ){
+                        buildShowToast("Please Select All Fields");
+                      }else{
+                        MyDataBase.addToCart(
+                            cartModel: CartModel(
+                              name: "Custom Pizza",
+                              status: "Pending",
+                              pizzaMaker: piz,
+                              quantity: 1,
+                              image: "",
+                              size: "Large",
+                              price: totalPrice.toDouble(),
+                            ),
+                            id: LoginCubit.currentUser.id
+                        );
+                        buildShowToast("Added To Cart Successfully");
+                        Navigator.pop(context);
+                      }
+
+
+                    }catch(e){
+                      buildShowToast(e.toString());
+                    }
+                  },
+                    // onPressed: (){
+                    //   showDialog(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return Dialog(
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(8.0),
+                    //             child: Stack(
+                    //               alignment: Alignment.bottomCenter,
+                    //               children: [
+                    //
+                    //                 Flex(
+                    //                   crossAxisAlignment: CrossAxisAlignment.start,
+                    //                   direction: Axis.vertical,
+                    //                 children: [
+                    //                   const SizedBox(height: 50,),
+                    //                   Text('Total Price: $totalPrice',style: const TextStyle(fontSize: 20),),
+                    //                   const SizedBox(height: 30,),
+                    //                  // const Text('Toppings:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                   Flexible(
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Toppings',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                       children: [
+                    //                         Padding(
+                    //                           padding: const EdgeInsets.all(10.0),
+                    //                           child: ListView.separated(
+                    //                            // shrinkWrap: true,
+                    //                             separatorBuilder: (context, index) => const SizedBox(height: 10,),
+                    //                             physics: const NeverScrollableScrollPhysics(),
+                    //                             itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.length,
+                    //                             itemBuilder: (context, index) {
+                    //                               return Text(
+                    //                                 '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings![index].name}',
+                    //                                 style: const TextStyle(fontSize: 25),
+                    //                               );
+                    //                             },
+                    //                           ),
+                    //                         )
+                    //                       ],
+                    //                     //  child: ,
+                    //                     ),
+                    //                   ),
+                    //                   const SizedBox(height: 10,),
+                    //                   //const Text('Cheese:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                   Flexible(
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Cheese',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //
+                    //                       children:[ Padding(
+                    //                         padding: const EdgeInsets.all(10.0),
+                    //                         child: ListView.separated(
+                    //                           shrinkWrap: true,
+                    //
+                    //                           separatorBuilder: (context, index) => const SizedBox(height: 10,),
+                    //                           physics: const NeverScrollableScrollPhysics(),
+                    //                           itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.length,
+                    //                           itemBuilder: (context, index) {
+                    //                             return Text(
+                    //                               '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses![index].name}',
+                    //                               style: const TextStyle(fontSize: 25),
+                    //                             );
+                    //                           },
+                    //                         ),
+                    //                       ),]
+                    //                     ),
+                    //                   ),
+                    //                   const SizedBox(height: 10,),
+                    //                  // const Text('Sauce:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                   Flexible(
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Sauce',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                       children: [Padding(
+                    //                         padding: const EdgeInsets.all(10.0),
+                    //                         child: ListView.separated(
+                    //                           shrinkWrap: true,
+                    //
+                    //                           separatorBuilder: (context, index) => const SizedBox(height: 10,),
+                    //                           physics: const NeverScrollableScrollPhysics(),
+                    //                           itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.length,
+                    //                           itemBuilder: (context, index) {
+                    //                             return Text(
+                    //                               '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces![index].name}',
+                    //                               style: const TextStyle(fontSize: 25),
+                    //                             );
+                    //                           },
+                    //                         ),
+                    //                       ),]
+                    //                     ),
+                    //                   ),
+                    //                   const SizedBox(height: 10,),
+                    //                  // const Text('Vegetables:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                   Flexible(
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Vegetables',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                       children: [Padding(
+                    //                         padding: const EdgeInsets.all(10.0),
+                    //                         child: ListView.separated(
+                    //                          shrinkWrap: true,
+                    //
+                    //                           separatorBuilder: (context, index) => const SizedBox(height: 10,),
+                    //                           physics: const NeverScrollableScrollPhysics(),
+                    //                           itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.length,
+                    //                           itemBuilder: (context, index) {
+                    //                             return Text(
+                    //                               '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables![index].name}',
+                    //                               style: const TextStyle(fontSize: 25),
+                    //                             );
+                    //                           },
+                    //                         ),
+                    //                       ),]
+                    //                     ),
+                    //                   ),
+                    //                   const SizedBox(height: 10,),
+                    //                  // const Text('Crust:',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                   Flexible(
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Crust',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    //                       children:[ Padding(
+                    //                         padding: const EdgeInsets.all(10.0),
+                    //                         child: ListView.separated(
+                    //                           shrinkWrap: true,
+                    //
+                    //                           separatorBuilder: (context, index) => const SizedBox(height: 10,),
+                    //                           physics: const NeverScrollableScrollPhysics(),
+                    //                           itemCount: cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.length,
+                    //                           itemBuilder: (context, index) {
+                    //                             return Text(
+                    //                               '${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts![index].name}',
+                    //                               style: const TextStyle(fontSize: 25),
+                    //                             );
+                    //                           },
+                    //                         ),
+                    //                       ),]
+                    //                     ),
+                    //                   ),
+                    //                   const SizedBox(height: 30,),
+                    //                 ],
+                    //               ),
+                    //                 Positioned(
+                    //                     top: 0,
+                    //                     left: 0,
+                    //                     right: 0,
+                    //                     child: Container(
+                    //                       color: Colors.white,
+                    //                       child: const Center(
+                    //                         child: Text(
+                    //                           'Order Summary',
+                    //                           style: TextStyle(
+                    //                               fontSize: 25,
+                    //                               fontWeight: FontWeight.bold,
+                    //                             color: Colors.orange
+                    //                           ),
+                    //                         ),
+                    //                       ),
+                    //                     )),
+                    //                 Container(
+                    //                   color: Colors.white,
+                    //                   child: Row(
+                    //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       ElevatedButton(
+                    //                         onPressed: () {
+                    //                           try{
+                    //                             PizzaMakerAdminNew pizzaMakerAdmin = PizzaMakerAdminNew(
+                    //                               crust: [],
+                    //                               toppings: [],
+                    //                               sauce: [],
+                    //                               vegetables: [],
+                    //                               cheeses: [],
+                    //                             );
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts?.forEach((element) {
+                    //                               pizzaMakerAdmin.crust?.add(element.name!);
+                    //                             },);
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings?.forEach((element) {
+                    //                               pizzaMakerAdmin.toppings?.add(element.name!);
+                    //                             },);
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces?.forEach((element) {
+                    //                               pizzaMakerAdmin.sauce?.add(element.name!);
+                    //                             },);
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables?.forEach((element) {
+                    //                               pizzaMakerAdmin.vegetables?.add(element.name!);
+                    //                             },);
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses?.forEach((element) {
+                    //                               pizzaMakerAdmin.cheeses?.add(element.name!);
+                    //                             },);
+                    //                             String piz = pizzaMakerAdmin.toJson().toString();
+                    //                            // String pizzaaa ="${cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toJson()}";
+                    //                            // List<String> list = pizzaaa.split(",");
+                    //                             if(
+                    //                             cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.toppings!.isEmpty ||
+                    //                                 cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.cheeses!.isEmpty ||
+                    //                                 cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.sauces!.isEmpty ||
+                    //                                 cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.vegetables!.isEmpty ||
+                    //                                 cubitContext!.read<PizzaMakerCubit>().pizzaMakerItem.crusts!.isEmpty
+                    //                             ){
+                    //                               buildShowToast("Please Select All Fields");
+                    //                             }else{
+                    //                               MyDataBase.addToCart(
+                    //                                   cartModel: CartModel(
+                    //                                     name: "Custom Pizza",
+                    //                                     status: "Pending",
+                    //                                     pizzaMaker: piz,
+                    //                                     quantity: 1,
+                    //                                     image: "",
+                    //                                     size: "Large",
+                    //                                     price: totalPrice.toDouble(),
+                    //                                   ),
+                    //                                   id: LoginCubit.currentUser.id
+                    //                               );
+                    //                               buildShowToast("Added To Cart Successfully");
+                    //                               Navigator.pop(context);
+                    //                             }
+                    //
+                    //
+                    //                           }catch(e){
+                    //                             buildShowToast(e.toString());
+                    //                           }
+                    //                         },
+                    //                         child: const Text('Add To Cart',
+                    //                           style: TextStyle(
+                    //                               fontSize: 20,
+                    //                               color: Colors.black
+                    //                           ),
+                    //                         ),
+                    //                       ),
+                    //                       ElevatedButton(
+                    //                         onPressed: () {
+                    //                           Navigator.pop(context);
+                    //                         },
+                    //                         child: const Text('Close',style: TextStyle(fontSize: 20,color: Colors.black),),
+                    //                       ),
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               ]
+                    //             ),
+                    //           ),
+                    //         );
+                    //       },
+                    //   );
+                    // },
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all(Colors.white),
                     backgroundColor: MaterialStateProperty.all(Colors.orange),
