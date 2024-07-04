@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ummuy2/core/data_base/models/admin_cart_model.dart';
 import 'package:ummuy2/core/data_base/models/cart_model.dart';
 import 'package:ummuy2/core/data_base/models/meal_model.dart';
+import 'package:ummuy2/core/data_base/models/seat_model.dart';
 import 'models/categories_model.dart';
 import 'models/sale_model.dart';
 import 'models/user.dart';
@@ -229,6 +230,20 @@ class MyDataBase{
       fromFirestore: (snapshot, options) => SaleModel.fromJson(snapshot.data()),
       toFirestore: (category, options) => category.toFireStore(),
     ).doc(id).update(saleModel.toFireStore());
+  }
+
+
+  static CollectionReference<SeatModel> getSeatsCollection(){
+    return FirebaseFirestore.instance.collection(SeatModel.collectionName)
+        .withConverter<SeatModel>(
+      fromFirestore: (snapshot, options) => SeatModel.fromJson(snapshot.data()),
+      toFirestore: (seats, options) => seats.toJson(),
+    );
+  }
+
+  static Future<void> editSeat(SeatModel seat){
+    var collection = getSeatsCollection();
+    return collection.doc(seat.seatName).update(seat.toJson());
   }
 
 }

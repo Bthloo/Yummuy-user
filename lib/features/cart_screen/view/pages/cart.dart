@@ -2,13 +2,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ummuy2/core/data_base/models/admin_cart_model.dart';
 import 'package:ummuy2/core/data_base/models/sale_model.dart';
+import 'package:ummuy2/core/data_base/models/seat_model.dart';
 import 'package:ummuy2/core/data_base/my_database.dart';
 import 'package:ummuy2/core/general_components/build_show_toast.dart';
 import 'package:ummuy2/features/auth/Login/ViewModel/login_cubit.dart';
 import 'package:ummuy2/features/cart_screen/viewmodel/cart_cubit.dart';
+import 'package:ummuy2/features/cart_screen/viewmodel/seat_cubit/seats_cubit.dart';
 import 'package:ummuy2/features/profile_screen/view/pages/propag.dart';
 import 'package:ummuy2/features/profile_screen/viewmodel/profile_cubit.dart';
 
@@ -22,6 +25,7 @@ class CartPage extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   final TextEditingController code = TextEditingController();
   BuildContext? cartContext;
+  BuildContext? seatContext;
   bool isCodeUsed = false;
   @override
   Widget build(BuildContext context) {
@@ -410,35 +414,69 @@ class CartPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-              child: Text(
-                "About 30 - 45 min ",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
-          const SizedBox(
-            height: 10,
+          Text(
+            "About 30 - 45 min ",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-              child: Text(
-                "Are you sure to confirm?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
           const SizedBox(
-            height: 20,
+            height: 5,
           ),
 
           //price
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-              child: Text(
-                "Total Price: ${CartCubit
-                    .get(cartContext!)
-                    .totalPrice} LE",
-                style:
-                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
+          Text(
+            "Total Price: ${CartCubit
+                .get(cartContext!)
+                .totalPrice} LE",
+            style:
+            const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text("Select a Seat Ignore in case of Devilry",
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          BlocProvider(
+  create: (context) => SeatsCubit()..getSeats(),
+  child: BlocBuilder<SeatsCubit,SeatsState>(
+  builder: (context, state) {
+    seatContext = context;
+     if(state is SeatsLoading){
+    return const Center(
+    child: CircularProgressIndicator(),
+    );
+    }else if(state is SeatsSuccess) {
+      return DropdownButtonFormField<SeatModel>(
+        borderRadius: BorderRadius.circular(10),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+
+        ),
+        hint: const Text('Select Seat'),
+        items: state.seats.map((e) =>
+            DropdownMenuItem(
+              child: Text(e.seatName!),
+              value: e,
+            )).toList(),
+        onChanged: (SeatModel? value) {
+          SeatsCubit.get(context).selectedSeat = value;
+        },
+      );
+    }else if(state is SeatsFailed) {
+      return Center(
+        child: Text(state.message),
+      );
+    }else{
+      return const Center(
+        child: Text('Unknown state'),
+      );
+    }
+  },
+),
+)
 
           //des
         ],
@@ -449,6 +487,7 @@ class CartPage extends StatelessWidget {
             try {
               MyDataBase.addCartAmdin(
                   cartAmdinModel: CartAmdinModel(
+                    seatName: SeatsCubit.get(seatContext).selectedSeat?.seatName?? "Delivery",
                     discountCode: CartCubit.get(cartContext!).discountCode,
                       isCodeUsed: CartCubit.get(cartContext!).isCodeUsed,
                       status: "Pending",
@@ -461,6 +500,17 @@ class CartPage extends StatelessWidget {
                       userEmail: LoginCubit.currentUser.email,
                       time: DateTime.now().toString()),
                   uId: LoginCubit.currentUser.id!);
+              if(SeatsCubit.get(seatContext).selectedSeat != null){
+                MyDataBase.editSeat(
+                  SeatModel(
+                      seatName: SeatsCubit.get(seatContext).selectedSeat!.seatName,
+                      isReserved: true,
+                      reservedName: LoginCubit.currentUser.name,
+                  )
+                );
+              }
+
+
               // MyDataBase.addToHistory(
               //     cartAdminModel:  CartAmdinModel(
               //       status: "Pending",

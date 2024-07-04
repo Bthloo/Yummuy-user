@@ -348,8 +348,8 @@ int totalPrice = 0;
                     //   );
                     // },
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    backgroundColor: MaterialStateProperty.all(Colors.orange),
+                    foregroundColor: WidgetStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(Colors.orange),
 
                   ),
                     child: const Padding(padding: EdgeInsets.symmetric(vertical: 4,horizontal: 4),
